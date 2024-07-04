@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>US Taxi Fare Price Prediction</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+</head>
+<body>
+    <div class="container">
+        <img src="/static/images/Taxis.jpg" alt="Logo">
+        <h1>Fare Price Prediction</h1>
+        <form action="/predict" method="post" onsubmit="return validateForm()">
+            <div class="dropdown-container">
+                <div>
+                    <label for="city">City:</label>
+                    <select name="city" id="city">
+                        {% for city in unique_cities %}
+                            <option value="{{ city }}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="company">Company:</label>
+                    <select name="company" id="company">
+                        {% for company in unique_companies %}
+                            <option value="{{ company }}">{{ company }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gender">
+                        {% for gender in unique_genders %}
+                            <option value="{{ gender }}">{{ gender }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="km_to_travel">Km to Travel:</label>
+                    <input type="text" name="km_to_travel" id="km_to_travel">
+                    <span id="km_error" style="color: red; display: none;">Please enter a value for Km to Travel.</span>
+                </div>
+            </div>
+            <input type="submit" value="Predict">
+        </form>
+        <script>
+            function validateForm() {
+                var kmInput = document.getElementById("km_to_travel").value;
+                if (kmInput === "") {
+                    document.getElementById("km_error").style.display = "block";
+                    return false; 
+                }
+                return true; 
+            }
+        </script>
+        {% if prediction %}
+        <div class="prediction-result-container">
+            <div class="prediction-result">
+                <h2>Predicted Price:</h2>
+                <p>$ {{ prediction }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
